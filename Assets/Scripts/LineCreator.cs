@@ -17,8 +17,6 @@ public class LineCreator : MonoBehaviour
     Vector3 mins;
     const float sliceWidth = 0.1f;
 
-    public event EventHandler NodesCreated;
-
     void Start()
     {
         readCSV.finishedParsing += ReadCSV_FinishedParsing;
@@ -52,6 +50,8 @@ public class LineCreator : MonoBehaviour
         particleManager.CreateParticles();
     }
 
+    //This method slices the node field into sections.
+    //GREATLY reduces search times.
     private List<List<Node>> SliceNodeField(List<Node> nodes){
         float low = mins.x;
         float high = maxes.x;

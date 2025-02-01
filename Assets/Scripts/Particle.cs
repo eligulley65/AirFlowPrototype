@@ -148,13 +148,14 @@ public class Particle : MonoBehaviour
         return null;
     }
 
+    //This method splits the whole path into smaller sections
+    //And sets the color of each section to the color at the node.
     private void SplitAndSetColorAll(List<Vector3> positions, List<Node> nodes){
         int index = 0;
         foreach(Vector3 pos in positions){
             if (index == positions.Count - 1){ break; }
             Node node = GetNodeFromPosition(pos, nodes);
             if (node is null) {
-                Debug.Log("yoink");
                 index++;
                 continue;
             }

@@ -11,7 +11,7 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] LineCreator lineCreator;
     public Vector3 mins;
     public Vector3 maxes;
-   private Vector3[] intakeCorners = {new Vector3(1.3f, 0.0f, 0.0f), new Vector3(1.3f, 0.0f, 0.5f),
+    private Vector3[] intakeCorners = {new Vector3(1.3f, 0.0f, 0.0f), new Vector3(1.3f, 0.0f, 0.5f),
         new Vector3(1.3f, 0.5f, 0.5f), new Vector3(2.3f, 0.5f, 0.5f),
         new Vector3(2.3f, 0.0f, 0.5f), new Vector3(2.3f, 0.5f, 0.0f),
         new Vector3(2.3f, 0.0f, 0.0f), new Vector3(1.3f, 0.5f, 0.0f)};
@@ -23,16 +23,6 @@ public class ParticleManager : MonoBehaviour
     private List<Node> nodesToStartAt;
     private List<List<Node>> slices;
 
-    private void Start() 
-    {
-        lineCreator.NodesCreated += LineCreator_NodesCreated;
-    }
-
-    private void LineCreator_NodesCreated(object sender, EventArgs e)
-    {
-        Debug.Log("particles");
-    }
-
     public void CreateParticles()
     {
         FindIntakeMaxesAndMins();
@@ -40,25 +30,12 @@ public class ParticleManager : MonoBehaviour
         List<Node> nodes = lineCreator.GetNodes();
         for (int i = 0; i < nodesToStartAt.Count; i++)
         {
-            //nodesToStartAt[i].GetComponent<MeshRenderer>().enabled = true;
-            //Debug.Log("I did it daddy");
-
-            
-            //int nodeIndex = i;
             Particle particle = Instantiate(particlePrefab, particleParent).GetComponent<Particle>();
             particle.SetNode(nodesToStartAt[i]);
             particle.SetLine(lineRendererPrefab);
             particle.SetMaxesAndMins(maxes, mins);
             particle.SetSlices(slices);
-            //List<Node> nodesToRemove = particle.StartMoving(nodes);
             List<Node> nodesToRemove = particle.StartMovingWithIntegration(nodes, 0.3f);
-            /*
-            if (nodesToRemove == null) continue;
-            foreach (Node node in nodesToRemove)
-            {
-                nodes.Remove(node);
-            }
-            //*/
         }
     }
 
@@ -81,29 +58,12 @@ public class ParticleManager : MonoBehaviour
 
     private void FindIntakeMaxesAndMins()
     {
-        ///*
         for (int i = 0; i < intakeCorners.Length; i++)
         {
             CheckAndSet(intakeCorners[i].x, 0);
             CheckAndSet(intakeCorners[i].y, 1);
             CheckAndSet(intakeCorners[i].z, 2);
         }
-        //*/
-        /*
-        for (int i = 0; i < outtakeCorners.Length; i++)
-        {
-            CheckAndSet(outtakeCorners[i].x, 0);
-            CheckAndSet(outtakeCorners[i].y, 1);
-            CheckAndSet(outtakeCorners[i].z, 2);
-        }
-        */
-        /*
-        for (int i = 0; i < mins.Length; i++)
-        {
-            mins[i] -= 0.3f;
-            maxes[i] += 0.3f;
-        }
-        //*/
     }
 
     private void CheckAndSet(float value, int pos)

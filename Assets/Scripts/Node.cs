@@ -28,6 +28,7 @@ public class Node : MonoBehaviour
         return velocity;
     }
 
+    //Method to check if a given point is inside the radius of this node.
     public bool IsPointInside(Vector3 pos)
     {
         bool x = false;
